@@ -37,7 +37,43 @@ const Login = () => {
             console.log(errorMessage);
           });
 
+    }
 
+    const handleFacebookSignIn = () => {
+
+        const fbProvider = new firebase.auth.FacebookAuthProvider();
+        firebase.auth().signInWithPopup(fbProvider)
+        .then(response => {
+           
+            const {displayName, email} = response.user;
+            const facebookSignInUser = {name: displayName, email}
+            setLoggedInUser(facebookSignInUser);
+            history.replace(from);
+            
+          }).catch(error => {
+
+            const errorMessage = error.message;
+            console.log(errorMessage);
+          });
+    }
+
+
+    const handleGithubSignIn = () => {
+
+        const ghProvider = new firebase.auth.GithubAuthProvider();
+        firebase.auth().signInWithPopup(ghProvider)
+        .then(response => {
+           
+            const {displayName, email} = response.user;
+            const facebookSignInUser = {name: displayName, email}
+            setLoggedInUser(facebookSignInUser);
+            history.replace(from);
+            
+          }).catch(error => {
+
+            const errorMessage = error.message;
+            console.log(errorMessage);
+          });
     }
 
 
@@ -45,6 +81,8 @@ const Login = () => {
         <div>
             <h1>This is Login</h1>
             <button onClick={handleGoogleSignIn}>Sign in using Google</button>
+            <button onClick={handleFacebookSignIn}>Sign in using Facebook</button>
+            <button onClick={handleGithubSignIn}>Sign in using Github</button>
         </div>
     );
 };
