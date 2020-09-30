@@ -28,6 +28,7 @@ const Login = () => {
             const {displayName, email} = response.user;
             const googleSignInUser = {name: displayName, email}
             setLoggedInUser(googleSignInUser);
+            storeAuthToken();
             history.replace(from);
 
           })
@@ -67,13 +68,27 @@ const Login = () => {
             const {displayName, email} = response.user;
             const facebookSignInUser = {name: displayName, email}
             setLoggedInUser(facebookSignInUser);
-            history.replace(from);
+            
             
           }).catch(error => {
 
             const errorMessage = error.message;
             console.log(errorMessage);
           });
+    }
+
+
+    const storeAuthToken = () => {
+
+      firebase.auth().currentUser.getIdToken(/* forceRefresh */ true)
+      .then(function(idToken) {
+
+        sessionStorage.setItem("token", idToken)
+        history.replace(from);
+      }).catch(function(error) {
+       
+      });
+
     }
 
 
